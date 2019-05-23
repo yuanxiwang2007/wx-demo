@@ -1,0 +1,22 @@
+server:
+  port: 9800
+  connection-timeout: 32000
+  servlet:
+    context-path: /ris-wx
+
+application:
+  name: qie-doctor
+
+mybatis:
+     type-aliases-package: com.doctorwork.qiedoctor.module
+     mapper-locations: classpath:com/doctorwork/qiedoctor/module/*/*.xml
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+logging:
+    config: classpath:logback-spring.xml
+spring:
+  profiles:
+    active: dev

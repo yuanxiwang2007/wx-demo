@@ -1,12 +1,17 @@
-target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
+# Created by .ignore support plugin (hsz.mobi)
+### Example user template template
+### Example user template
 
-# Avoid ignoring Maven wrapper jar file (.jar files are usually ignored)
-!/.mvn/wrapper/maven-wrapper.jar
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+/.idea/
+/tmp
+/target
+/logs
+/rpc/target
+/.classpath
+/.factorypath
+/.project

@@ -1,0 +1,65 @@
+### mysql
+druid:
+  driverClass: com.mysql.jdbc.Driver
+  initialSize: 5
+  maxActive: 50
+  maxIdle: 15
+  maxWait: 60000
+  minIdle: 10
+  password: NelFr4CKBow9jcw6kD2XXg
+  testOnBorrow: true
+  url: jdbc:mysql://172.16.4.7:3306/Urine
+  username: doctorwork_dev
+# \u540E\u7AEF\u5730\u5740
+project:
+  h5: http://web-dev.doctorwork.com
+  path: http://mojing.developer.doctorwork.com/qie-doctor
+  ssr: http://ssr-dev.doctorwork.com
+### redis
+redis:
+  applicationName: step-web
+  connectionTimeout: 30000
+  database: 18
+  masterConnectionMinimumIdleSize: 10
+  masterConnectionPoolSize: 100
+  masterName: mymaster
+  password: Doctorwork6379
+  retryAttempts: 2
+  retryInterval: 1000
+  sentinelAddress: redis://172.16.4.7:6380
+### swagger
+swagger:
+  enable: true
+access:
+  pre:
+    path: http://mojing.developer.doctorwork.com/qie-doctor/wechat/auth/access?scope=1
+
+#\u4F01\u9E45\u533B\u751F\u516C\u4F17\u53F7 \u6B63\u5F0F\u7684
+doctor:
+  wechat:
+    mp:
+      aesKey: VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5
+      appId: wx2d352d72afc10db6
+      appId.appName: healthapp-wx-bdg
+      secret: bb57e8b01f4591dcee3fc2493e8adf9f
+      token: 111222333
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb://dev:Doctorwork_dev@172.16.4.7:27017/MagicMirror
+  dubbo:
+    application:
+      name: ris-wx
+      owner: yxw
+
+    registry:
+      address: zookeeper://172.16.5.6:2181
+    protocol:
+      port: 90102
+sso:
+  address: http://sso-dev.doctorwork.com
+
+oa:
+  sso:
+    addr: http://oa.sso.developer.doctorwork.com/console
