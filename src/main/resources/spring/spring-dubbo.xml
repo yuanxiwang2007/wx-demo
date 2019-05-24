@@ -5,18 +5,12 @@
 
 						http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
-    <dubbo:registry address="${spring.dubbo.registry.address}" file="./tmp/ris-wx-dubbo-registry.cache"/>
-    <dubbo:protocol port="${spring.dubbo.protocol.port}" name="dubbo" heartbeat="31005"/>
-    <dubbo:application name="${spring.dubbo.application.name}" owner="yxw"/>
+    <dubbo:registry address="${spring.dubbo.registry.address}"/>
+    <dubbo:application name="${spring.dubbo.application.name}" owner="${spring.dubbo.application.owner}"/>
 
-    <dubbo:provider timeout="30000"/>
-    <dubbo:consumer check="false" retries="0" timeout="30000" lazy="true" />
-    <!--provider-->
-<!--    <dubbo:service interface="com.doctorwork.urineminiapp.api.rpc.UrineResultRpc" ref="urineResultRpcImpl"/>-->
+    <dubbo:consumer check="false" retries="0" timeout="30000" lazy="true"/>
 
-
-    <!--client-->
-
-<!--    <dubbo:reference id="activityService" interface="com.doctorwork.promotion.service.ActivityService"/>-->
-
+    <!-- wechat -->
+<!--    <dubbo:reference interface="com.doctorwork.arch.wechat.rpc.api.MpSubscribedUserApi" id="mpSubscribedUserApi"/>-->
+<!--    <dubbo:reference interface="com.doctorwork.healthapp.healthbusiness.rpc.healthproduct.HealthProductRpc" id="healthProductRpc"/>-->
 </beans>

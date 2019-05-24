@@ -35,14 +35,14 @@ access:
     path: http://mojing.developer.doctorwork.com/qie-doctor/wechat/auth/access?scope=1
 
 #\u4F01\u9E45\u533B\u751F\u516C\u4F17\u53F7 \u6B63\u5F0F\u7684
-doctor:
+ris:
   wechat:
     mp:
-      aesKey: VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5
-      appId: wx2d352d72afc10db6
-      appId.appName: healthapp-wx-bdg
-      secret: bb57e8b01f4591dcee3fc2493e8adf9f
-      token: 111222333
+      aesKey: NKzkrNp80XQZxf0J7xJ1ususiV7NeEfg8aAg4JyZhdY
+      appId: wx236c9418c338d8a5
+      appId.appName: ris-wx
+      secret: f234ccbcd219414a090e2fabc033adb0
+      token: cduhope2007
 
 spring:
   data:
