@@ -26,11 +26,11 @@ access:
 ris:
   wechat:
     mp:
-      aesKey: NKzkrNp80XQZxf0J7xJ1ususiV7NeEfg8aAg4JyZhdY
-      appId: wx236c9418c338d8a5
-      appId.appName: ris-wx
-      secret: f234ccbcd219414a090e2fabc033adb0
-      token: cduhope2007
+      aesKey: VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5
+      appId: wx2d352d72afc10db6
+      appId.appName: healthapp-wx-bdg
+      secret: bb57e8b01f4591dcee3fc2493e8adf9f
+      token: 111222333
 
 spring:
   data:

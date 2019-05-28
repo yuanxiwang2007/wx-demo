@@ -24,10 +24,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Binary Wang(https://github.com/binarywang)
@@ -121,21 +118,7 @@ public class RisSubscribeHandler extends AbstractHandler {
             String[] keyValue = wxMessage.getEventKey().split(":");
             LOGGER.info("扫描进入===> {}", JSON.toJSONString(keyValue));
             if (keyValue.length < 2) {
-//                StringBuilder stringBuilder = new StringBuilder();
-//                stringBuilder.append("欢迎关注企鹅医生——专注为个人和家庭提供优质、安全的健康服务：\r\n\r\n");
-//                stringBuilder.append("<a href=\"https://webprod.doctorwork.com/rapp/activity/health/member?sku=MP2018001&from=singlemessage&isappinstalled=0\">【家庭医生】</a>\r\n");
-//                stringBuilder.append("家人健康的安心托付\r\n\r\n");
-//                stringBuilder.append("【企鹅诊所】\r\n");
-//                stringBuilder.append("健康检查+治疗+管理，一站式全流程\r\n\r\n");
-//                stringBuilder.append("<a href=\"\" data-miniprogram-appid=\"wx5876f10f9a7e8b68\" data-miniprogram-path=\"pages/mainIndex/index\">【企鹅心选】</a>\r\n");
-//                stringBuilder.append("饮好食/养天然/缓初老…\r\n");
-//                stringBuilder.append("探寻健康好物及健康轻服务\r\n\r\n");
-//                stringBuilder.append("<a href=\"https://webprod.doctorwork.com/rapp/activity/miniapp\">【健康套餐】</a>\r\n");
-//                stringBuilder.append("居家自测/诊所服务，日常检验检测，预知健康风险\r\n\r\n");
-//                stringBuilder.append("<a href=\"https://wx068301c1ace1af0e.h5.xiaoe-tech.com/\">【企鹅日课】</a>\r\n");
-//                stringBuilder.append("生活与身体的难题，都需要潜心学习，一起来做生活学习者\r\n\r\n");
-//                stringBuilder.append("—\r\n");
-//                stringBuilder.append("预约香港诊所HVP9价疫苗，请添加 QE-Eva\r\n");
+
                 String content = "欢迎关注JAVA学习平台";
 //                if (LocalDate.now().isAfter(LocalDate.of(2019, 5, 12))) {
 //                    content = languagePackageService.SimplifiedToTraditionalByThreadLang(LanguagePackageConstant.WECHAT_PUBLIC_SUBSCRIBE_REPLY.getCode());// stringBuilder.toString();
@@ -144,10 +127,7 @@ public class RisSubscribeHandler extends AbstractHandler {
 //                    content = languagePackageService.SimplifiedToTraditionalByThreadLang(LanguagePackageConstant.WECHAT_PUBLIC_SUBSCRIBE_REPLY_MOTHERSDAY.getCode());
 //                    content = String.format(content, StringUtils.isNotBlank(wxMessage.getEventKey()) ? keyValue[0] : "MD_DOCTORWORK");
 //                }
-               return putNews(wxMessage);
-               // return new TextBuilder().build(content, wxMessage, wxMpService);
-                //sendWelcomeText(wxMessage, wxMpService, content);
-                //return null;
+               return pushWelcomeArticle(wxMessage);
             }
             String sceneActionName = keyValue[0];
             String deviceId = keyValue[1];
@@ -166,6 +146,44 @@ public class RisSubscribeHandler extends AbstractHandler {
         return null;
     }
 
+    /**
+     * 用户关注 推送欢迎文章列表
+     * @param wxMessage
+     * @return
+     */
+    public WxMpXmlOutMessage pushWelcomeArticle(WxMpXmlMessage wxMessage){
+        List<Item> items = new ArrayList<>();
+        Item item = new Item();
+        item.setTitle("MongoDB 高级查询-分组聚合的实践篇");
+        item.setDescription("MongoDB中聚合(aggregate)主要用于统计数据(比如统计平均值（avg）,求和( avg）,求和(      avg）,求和(<math><semantics><mrow><mi>a</mi><mi>v</mi><mi>g</mi><mi mathvariant=\"normal\">）</mi><mo separator=\"true\">,</mo><mi mathvariant=\"normal\">求</mi><mi mathvariant=\"normal\">和</mi><mo>(</mo></mrow><annotation encoding=\"application/x-tex\">avg）,求和(</annotation></semantics></math>avg）,求和(sum) ,最大最小(min, min,      min,<math><semantics><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo separator=\"true\">,</mo></mrow><annotation encoding=\"application/x-tex\">min,</annotation></semantics></math>min,max)等分组函数)，并view计算后的统计结果。");
+        item.setPicUrl("https://mmbiz.qpic.cn/mmbiz_jpg/gTMzyfAyziaLgAwFMaiaAyem40Qowg1Dmj5deaOMHDKRsGb9TGCLV4CvicmAomB6HTNQkufCqBFboA4Eq1dVvg4lw/0?wx_fmt=jpeg");
+        item.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        items.add(item);
+
+        item = new Item();
+        item.setTitle("Spring boot 中如何使用 MongoDB");
+        item.setDescription("MongoDB中聚合(aggregate)主要用于统计数据(比如统计平均值（avg）,求和( avg）,求和(      avg）,求和(<math><semantics><mrow><mi>a</mi><mi>v</mi><mi>g</mi><mi mathvariant=\"normal\">）</mi><mo separator=\"true\">,</mo><mi mathvariant=\"normal\">求</mi><mi mathvariant=\"normal\">和</mi><mo>(</mo></mrow><annotation encoding=\"application/x-tex\">avg）,求和(</annotation></semantics></math>avg）,求和(sum) ,最大最小(min, min,      min,<math><semantics><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo separator=\"true\">,</mo></mrow><annotation encoding=\"application/x-tex\">min,</annotation></semantics></math>min,max)等分组函数)，并view计算后的统计结果。");
+        item.setPicUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505100912368&di=69c2ba796aa2afd9a4608e213bf695fb&imgtype=0&src=http%3A%2F%2Ftx.haiqq.com%2Fuploads%2Fallimg%2F170510%2F0634355517-9.jpg");
+        item.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        items.add(item);
+
+        item = new Item();
+        item.setTitle("Spring boot 中如何使用 MongoDB");
+        item.setDescription("MongoDB中聚合(aggregate)主要用于统计数据(比如统计平均值（avg）,求和( avg）,求和(      avg）,求和(<math><semantics><mrow><mi>a</mi><mi>v</mi><mi>g</mi><mi mathvariant=\"normal\">）</mi><mo separator=\"true\">,</mo><mi mathvariant=\"normal\">求</mi><mi mathvariant=\"normal\">和</mi><mo>(</mo></mrow><annotation encoding=\"application/x-tex\">avg）,求和(</annotation></semantics></math>avg）,求和(sum) ,最大最小(min, min,      min,<math><semantics><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo separator=\"true\">,</mo></mrow><annotation encoding=\"application/x-tex\">min,</annotation></semantics></math>min,max)等分组函数)，并view计算后的统计结果。");
+        item.setPicUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505100912368&di=69c2ba796aa2afd9a4608e213bf695fb&imgtype=0&src=http%3A%2F%2Ftx.haiqq.com%2Fuploads%2Fallimg%2F170510%2F0634355517-9.jpg");
+        item.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        items.add(item);
+
+        item = new Item();
+        item.setTitle("Spring boot 中如何使用 MongoDB");
+        item.setDescription("MongoDB中聚合(aggregate)主要用于统计数据(比如统计平均值（avg）,求和( avg）,求和(      avg）,求和(<math><semantics><mrow><mi>a</mi><mi>v</mi><mi>g</mi><mi mathvariant=\"normal\">）</mi><mo separator=\"true\">,</mo><mi mathvariant=\"normal\">求</mi><mi mathvariant=\"normal\">和</mi><mo>(</mo></mrow><annotation encoding=\"application/x-tex\">avg）,求和(</annotation></semantics></math>avg）,求和(sum) ,最大最小(min, min,      min,<math><semantics><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mo separator=\"true\">,</mo></mrow><annotation encoding=\"application/x-tex\">min,</annotation></semantics></math>min,max)等分组函数)，并view计算后的统计结果。");
+        item.setPicUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505100912368&di=69c2ba796aa2afd9a4608e213bf695fb&imgtype=0&src=http%3A%2F%2Ftx.haiqq.com%2Fuploads%2Fallimg%2F170510%2F0634355517-9.jpg");
+        item.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        items.add(item);
+
+        WxMpXmlOutNewsMessage m = WxMpXmlOutMessage.NEWS().articles(items).fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser()).build();
+        return m;
+    }
     /**
      * 推送图片欢迎消息
      *
@@ -223,12 +241,43 @@ public class RisSubscribeHandler extends AbstractHandler {
         article1.setTitle("点击体验健康微体测");
         article1.setDescription("请先确认个人信息");
 
+//        Item item = new Item();
+//        item.setDescription(article1.getDescription());
+//        item.setPicUrl(article1.getPicUrl());
+//        item.setTitle(article1.getTitle());
+//        item.setUrl(article1.getUrl());
+
+
+        List<Item> items = new ArrayList<>();
         Item item = new Item();
-        item.setDescription(article1.getDescription());
-        item.setPicUrl(article1.getPicUrl());
-        item.setTitle(article1.getTitle());
-        item.setUrl(article1.getUrl());
-        WxMpXmlOutNewsMessage m = WxMpXmlOutMessage.NEWS().addArticle(item,item).fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser()).build();
+        item.setTitle("照片墙");
+        item.setDescription("阿狸照片墙");
+        item.setPicUrl("http://changhaiwx.pagekite.me/photo-wall/a/iali11.jpg");
+        item.setUrl("http://changhaiwx.pagekite.me/page/photowall");
+        items.add(item);
+
+        item = new Item();
+        item.setTitle("哈哈");
+        item.setDescription("一张照片");
+        item.setPicUrl("http://changhaiwx.pagekite.me/images/me.jpg");
+        item.setUrl("http://changhaiwx.pagekite.me/page/index");
+        items.add(item);
+
+        item = new Item();
+        item.setTitle("小游戏2048");
+        item.setDescription("小游戏2048");
+        item.setPicUrl("http://changhaiwx.pagekite.me/images/2048.jpg");
+        item.setUrl("http://changhaiwx.pagekite.me/page/game2048");
+        items.add(item);
+
+        item = new Item();
+        item.setTitle("百度");
+        item.setDescription("百度一下");
+        item.setPicUrl("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1505100912368&di=69c2ba796aa2afd9a4608e213bf695fb&imgtype=0&src=http%3A%2F%2Ftx.haiqq.com%2Fuploads%2Fallimg%2F170510%2F0634355517-9.jpg");
+        item.setUrl("http://www.baidu.com");
+        items.add(item);
+
+        WxMpXmlOutNewsMessage m = WxMpXmlOutMessage.NEWS().articles(items).fromUser(wxMessage.getToUser()).toUser(wxMessage.getFromUser()).build();
         return m;
     }
 

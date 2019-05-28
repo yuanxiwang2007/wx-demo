@@ -29,95 +29,99 @@ public class TencentUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(TencentUtil.class);
 
 
-    private static final String DES_GET_URL_PRE="http://172.16.4.17:81/Default.aspx?";
+    private static final String DES_GET_URL_PRE = "http://172.16.4.17:81/Default.aspx?";
     private static final String TENCENT_SERVER_URL_PRE = "https://xz.m.tencent.com/adm_apps/magicmirror/api/";
-    private static final String USER_INFO_URL="GetUserInfoByCardID/Post";
-    private static final String PUT_DATA_URL="Report/Post";
+    private static final String USER_INFO_URL = "GetUserInfoByCardID/Post";
+    private static final String PUT_DATA_URL = "Report/Post";
     private static final String SECURITY = "r0d0myh908anwcqcywmcdxfxeyvpgr7i";//不会改变
 
     static {
-    	System.setProperty ("jsse.enableSNIExtension", "false");
+        System.setProperty("jsse.enableSNIExtension", "false");
     }
-    public static String getSign(String security,String nonce,String time){
 
-        if(StringUtils.isBlank(security)){
+    public static String getSign(String security, String nonce, String time) {
+
+        if (StringUtils.isBlank(security)) {
             throw new IllegalArgumentException("security参数不能为空");
         }
-        if(StringUtils.isBlank(nonce)){
+        if (StringUtils.isBlank(nonce)) {
             throw new IllegalArgumentException("nonce参数不能为空");
         }
-        if(StringUtils.isBlank(time)){
+        if (StringUtils.isBlank(time)) {
             throw new IllegalArgumentException("time参数不能为空");
         }
-       String ret =  doGet(String.format(DES_GET_URL_PRE+"security=%s,&nonce=%s&time=%s",security,nonce,time),null);
+        String ret = doGet(String.format(DES_GET_URL_PRE + "security=%s,&nonce=%s&time=%s", security, nonce, time), null);
         return ret;
     }
 
-    public static String getTime(){
+    public static String getTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         return sdf.format(new Date());
     }
 
     /**
      * 根据cardid获取用户信息
+     *
      * @param cardid
      * @return
      */
-    public static String getTencentUserInfoByCardId(String cardid){
-    	System.setProperty ("jsse.enableSNIExtension", "false");
-        LOGGER.info("cardId:{}",cardid);
-    	if(cardid.startsWith("0")){
-    	    cardid = cardid.substring(1);
+    public static String getTencentUserInfoByCardId(String cardid) {
+        System.setProperty("jsse.enableSNIExtension", "false");
+        LOGGER.info("cardId:{}", cardid);
+        if (cardid.startsWith("0")) {
+            cardid = cardid.substring(1);
         }
-        LOGGER.info("cardId:{}",cardid);
-    	
+        LOGGER.info("cardId:{}", cardid);
+
         String time = getTime();
-        String nonce= getRandomString(10);
-        String sign = getSign(SECURITY,nonce,time);
-        Map<String,String> headers = new HashMap<>();
-        headers.put("HEALTH-NONCE",nonce);
-        headers.put("HEALTH-TIME",time);
-        headers.put("HEALTH-SIGN",sign);
-        LOGGER.info("headers:"+ JSON.toJSONString(headers));
-        LOGGER.info("url:"+TENCENT_SERVER_URL_PRE+USER_INFO_URL);
-        Map<String,Object> params = new HashMap<>();
-        params.put("cardid",cardid);
-        LOGGER.info("cardId:"+cardid);
-            String ret = doPost(TENCENT_SERVER_URL_PRE+USER_INFO_URL,params,headers);
-        LOGGER.info("ret:"+ret);
+        String nonce = getRandomString(10);
+        String sign = getSign(SECURITY, nonce, time);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("HEALTH-NONCE", nonce);
+        headers.put("HEALTH-TIME", time);
+        headers.put("HEALTH-SIGN", sign);
+        LOGGER.info("headers:" + JSON.toJSONString(headers));
+        LOGGER.info("url:" + TENCENT_SERVER_URL_PRE + USER_INFO_URL);
+        Map<String, Object> params = new HashMap<>();
+        params.put("cardid", cardid);
+        LOGGER.info("cardId:" + cardid);
+        String ret = doPost(TENCENT_SERVER_URL_PRE + USER_INFO_URL, params, headers);
+        LOGGER.info("ret:" + ret);
         return ret;
     }
 
     /**
      * 推送检查结果给腾讯服务器
+     *
      * @param params
      * @return
      */
-    public static String sendMagicResult(Map<String,Object> params){
-    	System.setProperty ("jsse.enableSNIExtension", "false");
+    public static String sendMagicResult(Map<String, Object> params) {
+        System.setProperty("jsse.enableSNIExtension", "false");
 
         String time = getTime();
-        String nonce= getRandomString(10);
-        String sign = getSign(SECURITY,nonce,time);
-        Map<String,String> headers = new HashMap<>();
-        headers.put("HEALTH-NONCE",nonce);
-        headers.put("HEALTH-TIME",time);
-        headers.put("HEALTH-SIGN",sign);
-        LOGGER.info("headers:"+ JSON.toJSONString(headers));
-        LOGGER.info("url:"+TENCENT_SERVER_URL_PRE+PUT_DATA_URL);
-        LOGGER.info("params:"+ JSON.toJSONString(params));
-        String ret = doPost(TENCENT_SERVER_URL_PRE+PUT_DATA_URL,params,headers);
-        LOGGER.info("ret:"+ret);
+        String nonce = getRandomString(10);
+        String sign = getSign(SECURITY, nonce, time);
+        Map<String, String> headers = new HashMap<>();
+        headers.put("HEALTH-NONCE", nonce);
+        headers.put("HEALTH-TIME", time);
+        headers.put("HEALTH-SIGN", sign);
+        LOGGER.info("headers:" + JSON.toJSONString(headers));
+        LOGGER.info("url:" + TENCENT_SERVER_URL_PRE + PUT_DATA_URL);
+        LOGGER.info("params:" + JSON.toJSONString(params));
+        String ret = doPost(TENCENT_SERVER_URL_PRE + PUT_DATA_URL, params, headers);
+        LOGGER.info("ret:" + ret);
         return ret;
     }
 
     /**
      * 发送GET请求 可以添加Header
+     *
      * @param url
      * @param addHeaderMapper
      * @return
      */
-    public static String  doGet(String url,Map<String,String> addHeaderMapper){
+    public static String doGet(String url, Map<String, String> addHeaderMapper) {
         CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         String result = "";
@@ -126,10 +130,10 @@ public class TencentUtil {
             httpClient = HttpClients.createDefault();
             // 创建httpGet远程连接实例
             HttpGet httpGet = new HttpGet(url);
-            if(addHeaderMapper!=null && addHeaderMapper.size()>0){
+            if (addHeaderMapper != null && addHeaderMapper.size() > 0) {
                 Set<String> keys = addHeaderMapper.keySet();
-                for(String key :keys){
-                    httpGet.addHeader(key,addHeaderMapper.get(key));
+                for (String key : keys) {
+                    httpGet.addHeader(key, addHeaderMapper.get(key));
                 }
             }
             // 设置配置请求参数
@@ -172,14 +176,15 @@ public class TencentUtil {
 
     /**
      * 发送POST请求可以添加Header
+     *
      * @param url
      * @param paramMap
      * @param addHeaderMapper
      * @return
      */
-    public static String doPost(String url, Map<String, Object> paramMap,Map<String,String> addHeaderMapper) {
-    	System.setProperty("jsse.enableSNIExtension", "false");
-    	CloseableHttpClient httpClient = null;
+    public static String doPost(String url, Map<String, Object> paramMap, Map<String, String> addHeaderMapper) {
+        System.setProperty("jsse.enableSNIExtension", "false");
+        CloseableHttpClient httpClient = null;
         CloseableHttpResponse httpResponse = null;
         String result = "";
         // 创建httpClient实例
@@ -195,24 +200,24 @@ public class TencentUtil {
         httpPost.setConfig(requestConfig);
         // 设置请求头
         httpPost.addHeader("Content-Type", "application/json");
-        if(addHeaderMapper!=null && addHeaderMapper.size()>0){
+        if (addHeaderMapper != null && addHeaderMapper.size() > 0) {
             Set<String> keys = addHeaderMapper.keySet();
-            for(String key :keys){
-                httpPost.addHeader(key,addHeaderMapper.get(key));
+            for (String key : keys) {
+                httpPost.addHeader(key, addHeaderMapper.get(key));
             }
         }
         // 封装post请求参数
         if (null != paramMap && paramMap.size() > 0) {
-        	String jsonParam = JSON.toJSONString(paramMap);
-   
-        	// 循环遍历，获取迭代器
-          System.out.println("====>>>"+jsonParam);
+            String jsonParam = JSON.toJSONString(paramMap);
+
+            // 循环遍历，获取迭代器
+            System.out.println("====>>>" + jsonParam);
             // 为httpPost设置封装好的请求参数
             try {
                 httpPost.setEntity(new StringEntity(jsonParam));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-                LOGGER.error(e.getMessage(),e);
+                LOGGER.error(e.getMessage(), e);
             }
         }
         try {
@@ -220,13 +225,13 @@ public class TencentUtil {
             httpResponse = httpClient.execute(httpPost);
             // 从响应对象中获取响应内容
             HttpEntity entity = httpResponse.getEntity();
-            result = EntityUtils.toString(entity,Charset.forName("UTF-8"));
+            result = EntityUtils.toString(entity, Charset.forName("UTF-8"));
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         } catch (IOException e) {
             e.printStackTrace();
-            LOGGER.error(e.getMessage(),e);
+            LOGGER.error(e.getMessage(), e);
         } finally {
             // 关闭资源
             if (null != httpResponse) {
@@ -250,19 +255,20 @@ public class TencentUtil {
 
     /**
      * 生成随机字符串
+     *
      * @param length
      * @return
      */
-    public static String getRandomString(int length){
+    public static String getRandomString(int length) {
         //定义一个字符串（A-Z，a-z，0-9）即62位；
-        String str="QWERTYUIOPASDFGHJKLZXCVBNM1234567890";
+        String str = "QWERTYUIOPASDFGHJKLZXCVBNM1234567890";
         //由Random生成随机数
-        Random random=new Random();
-        StringBuffer sb=new StringBuffer();
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
         //长度为几就循环几次
-        for(int i=0; i<length; ++i){
+        for (int i = 0; i < length; ++i) {
             //产生0-61的数字
-            int number=random.nextInt(str.length());
+            int number = random.nextInt(str.length());
             //将产生的数字通过length次承载到sb中
             sb.append(str.charAt(number));
         }
@@ -271,13 +277,13 @@ public class TencentUtil {
     }
 
 
-    public static void main(String[] args) throws Exception{
-         //System.out.println(getSign("r0d0myh908anwcqcywmcdxfxeyvpgr7i","4LC09Ui5B2","20180927104557"));
+    public static void main(String[] args) throws Exception {
+        //System.out.println(getSign("r0d0myh908anwcqcywmcdxfxeyvpgr7i","4LC09Ui5B2","20180927104557"));
         //System.out.println(getRandomString(10));
-    	System.setProperty ("jsse.enableSNIExtension", "false");
-    	String cardId="196911395";
-        String ret=TencentUtil.getTencentUserInfoByCardId(cardId);
-        System.out.println("----"+ret);
+        System.setProperty("jsse.enableSNIExtension", "false");
+        String cardId = "196911395";
+        String ret = TencentUtil.getTencentUserInfoByCardId(cardId);
+        System.out.println("----" + ret);
 //        Map<String,Object> params = new HashMap<String,Object>();
 //        params.put("height", 0);
 //        params.put("weight", 1);
@@ -299,8 +305,6 @@ public class TencentUtil {
 //        params.put("gmtCreate",new Date());
 //        TencentUtil.sendMagicResult(params);
     }
-    
-    
 
 
 }
