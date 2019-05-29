@@ -1,9 +1,7 @@
 package com.estatesoft.ris.wx.service.redis;
 
-import com.estatesoft.ris.wx.interceptor.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +11,21 @@ import java.util.concurrent.TimeUnit;
  * Created by wk on 2017/9/28.
  */
 @Service
-public class QrRedisService extends RedisService{
+public class QrRedisService extends RedisService {
 
     /***/
     private final String RIS_DEVICE_TICKET_CACHE = "RIS_DEVICE_TICKET_CACHE:";
 
-//    private final String MAGIC_MIRROR_CACHE = "MAGIC_MIRROR_CACHE";
+    //    private final String MAGIC_MIRROR_CACHE = "MAGIC_MIRROR_CACHE";
 //
 //    private final String DEVICE_ID_ = "DEVICE_ID_";
 //
-//    private final String LINK_TOKEN = "LINK_TOKEN_";
+    private final String LINK_TOKEN = "LINK_TOKEN:";
 //
 //    private final String DEVICE_ID_QRCODE_URL_ = "DEVICE_ID_QRCODE_URL_";
 
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
     //private final String URINE_MACID_QRCODE = "URINE_MACID_QRCODE:";
-
-
 
 
 //    /**
@@ -60,9 +56,9 @@ public class QrRedisService extends RedisService{
 //    }
 
 
-
     /**
      * 获取设备TICKET
+     *
      * @param deviceId
      * @return
      */
@@ -83,11 +79,8 @@ public class QrRedisService extends RedisService{
      * @param ticket
      */
     public void putDeviceIdTicketToCache(String deviceId, String ticket) {
-        //String key = DEVICE_ID_ + deviceId ;
-        //redisson.getMapCache(MAGIC_MIRROR_CACHE).put(key, ticket, 1, TimeUnit.MINUTES);
-
         ValueOperations<String, String> ops = this.redisTemplate.opsForValue();
-        ops.set(RIS_DEVICE_TICKET_CACHE + deviceId,ticket, 10, TimeUnit.MINUTES);
+        ops.set(RIS_DEVICE_TICKET_CACHE + deviceId, ticket, 10, TimeUnit.MINUTES);
     }
 //    public void putQrCodePictureUrlToCache(String deviceId, String qrCodePictureUrl) {
 //        String key = DEVICE_ID_QRCODE_URL_ + deviceId ;
@@ -104,30 +97,34 @@ public class QrRedisService extends RedisService{
 //        RMapCache<String, String> mapCache = redisson.getMapCache(MAGIC_MIRROR_CACHE);
 //        return mapCache.get(key);
 //    }
-//    /**
-//     *
-//     * @param deviceId
-//     * @return
-//     */
-//    public String getLinkTokenFromCache(String deviceId, String linkToken) {
-//        String key = LINK_TOKEN + linkToken ;
-//        RMapCache<String, String> mapCache = redisson.getMapCache(LINK_TOKEN + deviceId);
-//        return mapCache.get(key);
-//    }
-//
-//    /**
-//     * linkToken缓存5分钟
-//     * @param linkToken
-//     */
-//    public void putDeviceIdLinkTokenToCache(String deviceId, String linkToken) {
-//        String key = LINK_TOKEN + linkToken ;
-//        redisson.getMapCache(LINK_TOKEN + deviceId).put(key, linkToken, 5, TimeUnit.MINUTES);
-//    }
-//
-//    /**
-//     * @param deviceId
-//     */
-//    public void deleteLinkTokenByDeviceId(String deviceId) {
-//        redisson.getMapCache(LINK_TOKEN + deviceId).delete();delete
-//    }
+
+    /**
+     * @param deviceId
+     * @return
+     */
+    public String getLinkTokenFromCache(String deviceId) {
+
+        String key = LINK_TOKEN + deviceId;
+        ValueOperations<String, String> ops = this.redisTemplate.opsForValue();
+        return ops.get(key);
+    }
+
+    /**
+     * linkToken缓存5分钟
+     *
+     * @param linkToken
+     */
+    public void putDeviceIdLinkTokenToCache(String deviceId, String linkToken) {
+        String key = LINK_TOKEN + deviceId;
+        ValueOperations<String, String> ops = this.redisTemplate.opsForValue();
+        ops.set(key, linkToken, 5, TimeUnit.MINUTES);
+    }
+
+    /**
+     * @param deviceId
+     */
+    public void deleteLinkTokenByDeviceId(String deviceId) {
+        String key = LINK_TOKEN + deviceId;
+        this.redisTemplate.delete(key);
+    }
 }

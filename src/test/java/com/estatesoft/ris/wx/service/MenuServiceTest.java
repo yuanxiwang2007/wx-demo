@@ -37,10 +37,10 @@ public class MenuServiceTest {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(MenuServiceTest.class);
 
-//    @Value("${project.h5}")
-//    private String h5page;
-//    @Value("${project.path}")
-//    private String backendUrl;
+    @Value("${project.h5}")
+    private String h5page;
+    @Value("${project.path}")
+    private String backendUrl;
 
 //    /**
 //     * 医生端公众号service
@@ -73,7 +73,7 @@ public class MenuServiceTest {
     @Test
     public void AddMenuTest(){
 
-        String backendUrl = "http://mojing.developer.doctorwork.com/qie-doctor";
+        //String backendUrl = "http://mojing.developer.doctorwork.com/qie-doctor";
         WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
         configStorage.setAppId(wechatMpRisProperties.getAppId());
         configStorage.setSecret(wechatMpRisProperties.getSecret());
@@ -99,6 +99,39 @@ public class MenuServiceTest {
         jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
 
 
+        allButtons.add(jiaruqielianmengButton);
+        jiaruqielianmengButton = new WxMenuButton();
+        jiaruqielianmengButton.setName("JAVA");
+        jiaruqielianmengButton.setType("view");
+        myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
+        jiaruqielianmengButton.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+
+        List<WxMenuButton> subMenu = new ArrayList<>();
+        WxMenuButton subone = new WxMenuButton();
+        subone.setName("MongoDB");
+        subone.setType("view");
+        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        subMenu.add(subone);
+
+        subone = new WxMenuButton();
+        subone.setName("Redis");
+        subone.setType("view");
+        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        subMenu.add(subone);
+
+        subone = new WxMenuButton();
+        subone.setName("ES");
+        subone.setType("view");
+        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+        subMenu.add(subone);
+        jiaruqielianmengButton.setSubButtons(subMenu);
+
+        allButtons.add(jiaruqielianmengButton);
+        jiaruqielianmengButton = new WxMenuButton();
+        jiaruqielianmengButton.setName(".NET");
+        jiaruqielianmengButton.setType("view");
+        myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
+        jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
         allButtons.add(jiaruqielianmengButton);
         menu.setButtons(allButtons);
         try {

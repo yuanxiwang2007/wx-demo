@@ -22,5 +22,14 @@ public class QrRedisServiceTest {
 
         qrRedisService.putDeviceIdTicketToCache("1321312","values");
         String dd=qrRedisService.getDeviceIdTicketFromCache("1321312");
+
+        String deviceId="10d07afb34d9";
+        String linktoken="34WRW45ERFCVXGDFGFD";
+
+        qrRedisService.putDeviceIdLinkTokenToCache(deviceId,linktoken);
+        System.out.println("get"+qrRedisService.getLinkTokenFromCache(deviceId));
+        qrRedisService.deleteLinkTokenByDeviceId(deviceId);
+        System.out.println("get1"+qrRedisService.getLinkTokenFromCache(deviceId));
+
     }
 }

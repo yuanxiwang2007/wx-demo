@@ -13,24 +13,24 @@ druid:
 # \u540E\u7AEF\u5730\u5740
 project:
   h5: http://web-dev.doctorwork.com
-  path: http://mojing.developer.doctorwork.com/qie-doctor
+  path: http://estatesoft.wicp.vip/ris-wx
   ssr: http://ssr-dev.doctorwork.com
 ### swagger
 swagger:
   enable: true
 access:
   pre:
-    path: http://mojing.developer.doctorwork.com/qie-doctor/wechat/auth/access?scope=1
+    path: http://estatesoft.wicp.vip/ris-wx/wechat/auth/access?scope=1
 
 #\u4F01\u9E45\u533B\u751F\u516C\u4F17\u53F7 \u6B63\u5F0F\u7684
 ris:
   wechat:
     mp:
-      aesKey: NKzkrNp80XQZxf0J7xJ1ususiV7NeEfg8aAg4JyZhdY
-      appId: wx236c9418c338d8a5
-      appId.appName: ris-wx
-      secret: f234ccbcd219414a090e2fabc033adb0
-      token: cduhope2007
+      aesKey: VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5
+      appId: wx865c9a5babf0342e
+      appId.appName: healthapp-wx-bdg
+      secret: fca58ab9ad3e3da15a05e8ad98c84aaf
+      token: 111222333
 
 spring:
   data:
@@ -48,7 +48,7 @@ spring:
   redis:
     sentinel:
       master: mymaster
-      nodes: 172.16.4.7:6380
+      nodes: 172.16.5.6:6380
     database: 15
     password: Doctorwork6379
 sso:

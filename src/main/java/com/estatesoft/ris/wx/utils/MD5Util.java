@@ -4,6 +4,8 @@ package com.estatesoft.ris.wx.utils;
  * Created by wangkai on 18/2/7.
  */
 
+import sun.misc.BASE64Encoder;
+
 import java.security.MessageDigest;
 
 /**
@@ -14,7 +16,12 @@ public class MD5Util {
     private static final String SALT = "yy";
 
     private static final String WECAHT_SALT = "yy_aa";
-
+    public static String Md5Base64(String str) throws Exception {
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        BASE64Encoder base64en = new BASE64Encoder();
+        String newstr = base64en.encode(md5.digest(str.getBytes("utf-8")));
+        return newstr;
+    }
     public static String encode(String password) {
         password = password + SALT;
         return processEncode(password);
