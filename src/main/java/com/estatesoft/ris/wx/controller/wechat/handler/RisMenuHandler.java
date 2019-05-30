@@ -1,5 +1,7 @@
 package com.estatesoft.ris.wx.controller.wechat.handler;
 
+import com.estatesoft.ris.wx.controller.wechat.builder.ImageBuilder;
+import com.estatesoft.ris.wx.controller.wechat.builder.TextBuilder;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class RisMenuHandler extends AbstractHandler {
     private final String ONLINE_SERVICE = "onlineService";
 
+    private final String CLOUD_SALE = "cloudsale";
+
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
                                     Map<String, Object> context, WxMpService weixinService,
@@ -29,10 +33,11 @@ public class RisMenuHandler extends AbstractHandler {
             return null;
         }
         if (WxConsts.EventType.CLICK.equals(wxMessage.getEvent())) {
-            if (ONLINE_SERVICE.equals(wxMessage.getEventKey())) {
+            if (CLOUD_SALE.equals(wxMessage.getEventKey())) {
                 try {
-                    sendText(wxMessage, weixinService);
-                } catch (WxErrorException e) {
+                    return sendImage(wxMessage, weixinService);
+                    //sendText(wxMessage, weixinService);
+                } catch (Exception e) {
                     this.logger.error(e.getMessage(), e);
                 }
             }
@@ -42,6 +47,10 @@ public class RisMenuHandler extends AbstractHandler {
                 .build();
     }
 
+    private WxMpXmlOutMessage sendImage(WxMpXmlMessage wxMessage, WxMpService wxMpService){
+        String content="6GZrToTfajSppirq-eDOFxDfA68suUlXtXiohIGALRA";
+        return new ImageBuilder().build(content, wxMessage, wxMpService);
+    }
     private void sendText(WxMpXmlMessage wxMessage, WxMpService wxMpService) throws WxErrorException {
         String msg = "{\n" +
                 "    \"access_token\": \"" + wxMpService.getAccessToken() + "\",\n" +

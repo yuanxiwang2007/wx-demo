@@ -4,11 +4,17 @@ import com.alibaba.fastjson.JSON;
 import com.estatesoft.ris.wx.Application;
 import com.estatesoft.ris.wx.conf.WechatMpRisProperties;
 import com.google.common.collect.Lists;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -20,6 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.annotation.Resource;
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -128,19 +135,32 @@ public class MenuServiceTest {
 
         allButtons.add(jiaruqielianmengButton);
         jiaruqielianmengButton = new WxMenuButton();
-        jiaruqielianmengButton.setName(".NET");
-        jiaruqielianmengButton.setType("view");
+        jiaruqielianmengButton.setName("云销客");
+        jiaruqielianmengButton.setType("click");
+        jiaruqielianmengButton.setKey("cloudsale");
         myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
-        jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
+        //jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
         allButtons.add(jiaruqielianmengButton);
         menu.setButtons(allButtons);
         try {
+            File file=new File("d:\\FkNs8qwAEXfd2HN4d5RNMk15NMoO.png");
+            WxMpMaterial material=new WxMpMaterial();
+            material.setFile(file);
+            material.setName("dddddd");
+            material.setVideoIntroduction("ccc");
+            material.setVideoTitle("fff");
+            WxMpMaterialUploadResult result= wxMpService.getMaterialService().materialFileUpload(WxConsts.XmlMsgType.IMAGE,material);
+
+
+
             wxMpService.getMenuService().menuCreate(menu);
         } catch (WxErrorException e) {
             e.printStackTrace();
         }
 
     }
+
+
 
     public static void main(String[] args) throws WxErrorException {
         String backendUrl = "http://mojing.developer.doctorwork.com/qie-doctor";
@@ -171,6 +191,7 @@ public class MenuServiceTest {
 
         allButtons.add(jiaruqielianmengButton);
         menu.setButtons(allButtons);
+
         wxMpService.getMenuService().menuCreate(menu);
 
 

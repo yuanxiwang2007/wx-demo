@@ -8,9 +8,12 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutNewsMessage;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +49,11 @@ public class RisMsgHandler extends AbstractHandler {
                 String retContent = "礼物限量前100名，根据先来先送原则，没有收到的宝宝们也不要灰心，我们会不定期送出礼物";
                 return new TextBuilder().build(retContent, wxMessage, weixinService);
             }
+            if (StringUtils.isNotBlank(content) && (content.equals("订单") || content.equals("查询"))) {
+
+                sendOrderInfo(weixinService, wxMessage);
+                return null;
+            }
             if (StringUtils.isNotBlank(content) && (content.equals("文章") || content.equals("JAVA") || content.equals("java") || content.equals("mongodb"))) {
                 return pushArticle(wxMessage);
             }
@@ -65,12 +73,45 @@ public class RisMsgHandler extends AbstractHandler {
         return new TextBuilder().build(retContent, wxMessage, weixinService);
 
     }
+
+    public void sendOrderInfo(WxMpService wxMpService, WxMpXmlMessage wxMessage) {
+
+        List<WxMpTemplateData> dataList = new ArrayList<>();
+
+        WxMpTemplateData item = new WxMpTemplateData();
+        item.setName("num");
+        item.setValue("XSD20190528008");
+        item.setColor("#459ae9");
+        dataList.add(item);
+
+        item = new WxMpTemplateData();
+        item.setName("money");
+        item.setValue("58.90");
+        item.setColor("#44b549");
+        dataList.add(item);
+        //2,推送消息
+        WxMpTemplateMessage templateMessage = WxMpTemplateMessage.builder()
+                .toUser(wxMessage.getFromUser())//要推送的用户openid
+                .templateId("R8yrNQNKalWSDRuHwqCvjHksJUjIfYq7zhUHqNqTE_k")//模版id
+                .url("https://30paotui.com/")//点击模版消息要访问的网址
+                .data(dataList)
+                .build();
+
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     /**
      * 用户关注 推送欢迎文章列表
+     *
      * @param wxMessage
      * @return
      */
-    public WxMpXmlOutMessage pushArticle(WxMpXmlMessage wxMessage){
+    public WxMpXmlOutMessage pushArticle(WxMpXmlMessage wxMessage) {
         List<WxMpXmlOutNewsMessage.Item> items = new ArrayList<>();
         WxMpXmlOutNewsMessage.Item item = new WxMpXmlOutNewsMessage.Item();
         item.setTitle("MongoDB 高级查询-分组聚合的实践篇");

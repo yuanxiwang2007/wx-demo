@@ -46,11 +46,13 @@ spring:
     protocol:
       port: 90102
   redis:
-    sentinel:
-      master: mymaster
-      nodes: 172.16.5.6:6380
+#    sentinel:
+#      master: mymaster
+#      nodes: 172.16.5.6:6380 Doctorwork6379
     database: 15
-    password: Doctorwork6379
+    password: 123456
+    host: 127.0.0.1
+    port: 6379
 sso:
   address: http://sso-dev.doctorwork.com
 
