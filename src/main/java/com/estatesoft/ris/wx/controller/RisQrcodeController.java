@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * 认证控制器
@@ -73,4 +74,9 @@ public class RisQrcodeController extends BaseController {
         return success(url);
     }
 
+    @GetMapping(value = "/redis")
+    public HttpResult testredis(String deviceId, HttpServletResponse response) throws WxErrorException, IOException {
+        qrRedisService.putDeviceIdTicketToCache(deviceId, UUID.randomUUID().toString());
+        return success();
+    }
 }
