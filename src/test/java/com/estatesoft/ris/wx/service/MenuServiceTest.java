@@ -27,6 +27,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,57 +101,62 @@ public class MenuServiceTest {
         WxMenu menu = new WxMenu();
         List<WxMenuButton> allButtons = new ArrayList<>();
         WxMenuButton jiaruqielianmengButton = new WxMenuButton();
-        jiaruqielianmengButton.setName("魔镜档案");
+        jiaruqielianmengButton.setName("宝贝的健康");
         jiaruqielianmengButton.setType("view");
-        String myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
-        jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
+        String myHealthUrl = null;
+        try {
+            myHealthUrl = URLEncoder.encode("http://ssr-qa.doctorwork.com/magicmirror/report?channel=5", "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        jiaruqielianmengButton.setUrl("http://wechat-qa.developer.doctorwork.com/mg-mp-trade" + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
 
 
         allButtons.add(jiaruqielianmengButton);
-        jiaruqielianmengButton = new WxMenuButton();
-        jiaruqielianmengButton.setName("JAVA");
-        jiaruqielianmengButton.setType("view");
-        myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
-        jiaruqielianmengButton.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
-
-        List<WxMenuButton> subMenu = new ArrayList<>();
-        WxMenuButton subone = new WxMenuButton();
-        subone.setName("MongoDB");
-        subone.setType("view");
-        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
-        subMenu.add(subone);
-
-        subone = new WxMenuButton();
-        subone.setName("Redis");
-        subone.setType("view");
-        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
-        subMenu.add(subone);
-
-        subone = new WxMenuButton();
-        subone.setName("ES");
-        subone.setType("view");
-        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
-        subMenu.add(subone);
-        jiaruqielianmengButton.setSubButtons(subMenu);
-
-        allButtons.add(jiaruqielianmengButton);
-        jiaruqielianmengButton = new WxMenuButton();
-        jiaruqielianmengButton.setName("云销客");
-        jiaruqielianmengButton.setType("click");
-        jiaruqielianmengButton.setKey("cloudsale");
-        myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
-        //jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
-        allButtons.add(jiaruqielianmengButton);
+//        jiaruqielianmengButton = new WxMenuButton();
+//        jiaruqielianmengButton.setName("JAVA");
+//        jiaruqielianmengButton.setType("view");
+//        myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
+//        jiaruqielianmengButton.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+//
+//        List<WxMenuButton> subMenu = new ArrayList<>();
+//        WxMenuButton subone = new WxMenuButton();
+//        subone.setName("MongoDB");
+//        subone.setType("view");
+//        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+//        subMenu.add(subone);
+//
+//        subone = new WxMenuButton();
+//        subone.setName("Redis");
+//        subone.setType("view");
+//        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+//        subMenu.add(subone);
+//
+//        subone = new WxMenuButton();
+//        subone.setName("ES");
+//        subone.setType("view");
+//        subone.setUrl("https://blog.csdn.net/yuanxiwang/article/details/89218476");
+//        subMenu.add(subone);
+//        jiaruqielianmengButton.setSubButtons(subMenu);
+//
+//        allButtons.add(jiaruqielianmengButton);
+//        jiaruqielianmengButton = new WxMenuButton();
+//        jiaruqielianmengButton.setName("云销客");
+//        jiaruqielianmengButton.setType("click");
+//        jiaruqielianmengButton.setKey("cloudsale");
+//        myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
+//        //jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
+//        allButtons.add(jiaruqielianmengButton);
         menu.setButtons(allButtons);
         try {
-            File file=new File("d:\\FkNs8qwAEXfd2HN4d5RNMk15NMoO.png");
-            WxMpMaterial material=new WxMpMaterial();
-            material.setFile(file);
-            material.setName("dddddd");
-            material.setVideoIntroduction("ccc");
-            material.setVideoTitle("fff");
-            WxMpMaterialUploadResult result= wxMpService.getMaterialService().materialFileUpload(WxConsts.XmlMsgType.IMAGE,material);
-
+//            File file=new File("d:\\FkNs8qwAEXfd2HN4d5RNMk15NMoO.png");
+//            WxMpMaterial material=new WxMpMaterial();
+//            material.setFile(file);
+//            material.setName("dddddd");
+//            material.setVideoIntroduction("ccc");
+//            material.setVideoTitle("fff");
+//            WxMpMaterialUploadResult result= wxMpService.getMaterialService().materialFileUpload(WxConsts.XmlMsgType.IMAGE,material);
+//
 
 
             wxMpService.getMenuService().menuCreate(menu);

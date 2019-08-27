@@ -43,7 +43,7 @@ public class RisSubscribeHandler extends AbstractHandler {
     /**
      * 扫码进入场景名称
      */
-    private List<String> sceneNames = Arrays.asList("qrscene_magicMirrorDeviceId");
+    private List<String> sceneNames = Arrays.asList("qrscene_deviceId");
 
     private final static String FRONDEND_URL = "/rapp/activity/magicmirror/start?deviceId=";
 

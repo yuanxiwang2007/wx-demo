@@ -13,7 +13,7 @@ druid:
 # \u540E\u7AEF\u5730\u5740
 project:
   h5: http://web-dev.doctorwork.com
-  path: http://mojing.developer.doctorwork.com/qie-doctor
+  path: http://mojing-qa.developer.doctorwork.com/qie-doctor
   ssr: http://ssr-dev.doctorwork.com
 ### swagger
 swagger:

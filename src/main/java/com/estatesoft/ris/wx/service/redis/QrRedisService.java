@@ -64,7 +64,6 @@ public class QrRedisService extends RedisService {
      */
     public String getDeviceIdTicketFromCache(String deviceId) {
         //String key = DEVICE_ID_ + deviceId ;
-
         ValueOperations<String, String> ops = this.redisTemplate.opsForValue();
         return ops.get(RIS_DEVICE_TICKET_CACHE + deviceId);
 

@@ -13,23 +13,23 @@ druid:
 # \u540E\u7AEF\u5730\u5740
 project:
   h5: http://web-dev.doctorwork.com
-  path: http://estatesoft.wicp.vip/ris-wx
+  path: http://wechat.developer.doctorwork.com/qie-doctor
   ssr: http://ssr-dev.doctorwork.com
 ### swagger
 swagger:
   enable: true
 access:
   pre:
-    path: http://estatesoft.wicp.vip/ris-wx/wechat/auth/access?scope=1
+    path: http://wechat.developer.doctorwork.com/qie-doctor/wechat/auth/access?scope=1
 
 #\u4F01\u9E45\u533B\u751F\u516C\u4F17\u53F7 \u6B63\u5F0F\u7684
 ris:
   wechat:
     mp:
       aesKey: VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5
-      appId: wx865c9a5babf0342e
+      appId: wx2d352d72afc10db6
       appId.appName: healthapp-wx-bdg
-      secret: fca58ab9ad3e3da15a05e8ad98c84aaf
+      secret: bb57e8b01f4591dcee3fc2493e8adf9f
       token: 111222333
 
 spring:
