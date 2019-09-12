@@ -48,7 +48,7 @@ public class RisWechatController {
 			@RequestParam(name = "nonce", required = false) String nonce,
 			@RequestParam(name = "echostr", required = false) String echostr) {
 
-		this.logger.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature,
+		this.logger.info("\n接收到来自微信服务器的认证消息：[signature={},timestamp= {},nonce= {},echostr= {}]", signature,
 				timestamp, nonce, echostr);
 
 		if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {

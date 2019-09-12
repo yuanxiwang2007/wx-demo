@@ -1,20 +1,12 @@
 package com.estatesoft.ris.wx.service;
 
-import com.alibaba.fastjson.JSON;
 import com.estatesoft.ris.wx.Application;
 import com.estatesoft.ris.wx.conf.WechatMpRisProperties;
-import com.google.common.collect.Lists;
-import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
-import me.chanjar.weixin.mp.bean.material.WxMediaImgUploadResult;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
-import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -25,8 +17,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.annotation.Resource;
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -79,7 +69,7 @@ public class MenuServiceTest {
     private WechatMpRisProperties wechatMpRisProperties;
 
     @Test
-    public void AddMenuTest(){
+    public void AddMenuTest() {
 
         //String backendUrl = "http://mojing.developer.doctorwork.com/qie-doctor";
         WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
@@ -167,14 +157,14 @@ public class MenuServiceTest {
     }
 
 
-
-    public static void main(String[] args) throws WxErrorException {
-        String backendUrl = "http://mojing.developer.doctorwork.com/qie-doctor";
+    @Test
+    public void mainTest() {
+        String backendUrl = "http://api.doctorwork.com/mg-mp-trade";
         WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
-        configStorage.setAppId("wx2d352d72afc10db6");
-        configStorage.setSecret("bb57e8b01f4591dcee3fc2493e8adf9f");
-        configStorage.setToken("111222333");
-        configStorage.setAesKey("VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5");
+        configStorage.setAppId("wx2b724cc6e6610b47");
+        configStorage.setSecret("f219847d8090f10109e92a99d3eb2a2d");
+        configStorage.setToken("hongyuyey111222333");
+        configStorage.setAesKey("NfbIZ9s7ZXCH7rIXUhOOGi0eUyoyLkQQv8Ytcbu6f98");
 
         WxMpService wxMpService = new me.chanjar.weixin.mp.api.impl.WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(configStorage);
@@ -189,16 +179,20 @@ public class MenuServiceTest {
         WxMenu menu = new WxMenu();
         List<WxMenuButton> allButtons = new ArrayList<>();
         WxMenuButton jiaruqielianmengButton = new WxMenuButton();
-        jiaruqielianmengButton.setName("魔镜档案");
+        jiaruqielianmengButton.setName("宝贝的健康");
         jiaruqielianmengButton.setType("view");
-        String myHealthUrl = "http%3a%2f%2fweb-dev.doctorwork.com%2frapp%2factivity%2fmagicmirror%2farchive";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
+        String myHealthUrl = "http%3A%2F%2Fssr.doctorwork.com%2Fmagicmirror%2Freport%3Fchannel%3D5";//URLEncoder.encode(h5page + "/app/mpworker/alliance/guide", "UTF-8");
         jiaruqielianmengButton.setUrl(backendUrl + "/wechat/auth/access?scope=1&redirectUrl=" + myHealthUrl);
 
 
         allButtons.add(jiaruqielianmengButton);
         menu.setButtons(allButtons);
 
-        wxMpService.getMenuService().menuCreate(menu);
+        try {
+            wxMpService.getMenuService().menuCreate(menu);
+        } catch (WxErrorException e) {
+            e.printStackTrace();
+        }
 
 
     }

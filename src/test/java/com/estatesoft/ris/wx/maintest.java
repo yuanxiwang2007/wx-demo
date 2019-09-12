@@ -35,6 +35,16 @@ public class maintest {
     }
 
     public static void main(String[] args) {
+
+        String nickname="ddd";
+        String param ="openddd";
+        String content = String.format("@%s 你好param=%s", nickname, param, param);
+        //content = content + param;
+        System.out.println(content);
+        content = String.format("@%s 你好param=%s, cc=%s", nickname, param, param);
+        //content = content + param;
+        System.out.println(content);
+
         String emailAddress = "danielling.income@gmail.com";
         String reg = "\\w+[\\w|\\.]+[\\w]*@[\\w]+\\.[\\w]+$";
         //利用正则表达式（可改进）验证邮箱是否符合邮箱的格式
