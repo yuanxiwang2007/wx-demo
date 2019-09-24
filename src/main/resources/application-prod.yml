@@ -13,24 +13,24 @@ druid:
 # \u540E\u7AEF\u5730\u5740
 project:
   h5: http://web-dev.doctorwork.com
-  path: http://wechat.developer.doctorwork.com/qie-doctor
+  path: http://mojing-qa.developer.doctorwork.com/qie-doctor
   ssr: http://ssr-dev.doctorwork.com
 ### swagger
 swagger:
   enable: true
 access:
   pre:
-    path: http://wechat.developer.doctorwork.com/qie-doctor/wechat/auth/access?scope=1
+    path: http://mojing.developer.doctorwork.com/qie-doctor/wechat/auth/access?scope=1
 
 #\u4F01\u9E45\u533B\u751F\u516C\u4F17\u53F7 \u6B63\u5F0F\u7684
 ris:
   wechat:
     mp:
-      aesKey: VVKUIHwdwdm0YiDQfFk1vOvfTfCq0atOtZX2L5w3ma5
-      appId: wx865c9a5babf0342e
-      appId.appName: healthapp-wx-bdg
-      secret: fca58ab9ad3e3da15a05e8ad98c84aaf
-      token: 111222333
+      aesKey: NKzkrNp80XQZxf0J7xJ1ususiV7NeEfg8aAg4JyZhdY
+      appId: wx236c9418c338d8a5
+      appId.appName: est-wx-ris
+      secret: e5e4d40130dbffa1cd336149de74a3e2
+      token: cduhope2007
 
 spring:
   data:

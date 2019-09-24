@@ -1,12 +1,17 @@
 package com.estatesoft.ris.wx.service;
 
+import com.alibaba.fastjson.JSON;
 import com.estatesoft.ris.wx.Application;
 import com.estatesoft.ris.wx.conf.WechatMpRisProperties;
+import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.bean.menu.WxMenuButton;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterial;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialUploadResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -156,15 +162,74 @@ public class MenuServiceTest {
 
     }
 
+    @Test
+    public void testcduWxMsg() {
+        WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
+        configStorage.setAppId(wechatMpRisProperties.getAppId());
+        configStorage.setSecret(wechatMpRisProperties.getSecret());
+        configStorage.setToken(wechatMpRisProperties.getToken());
+        configStorage.setAesKey(wechatMpRisProperties.getAesKey());
+
+        WxMpService wxMpService = new me.chanjar.weixin.mp.api.impl.WxMpServiceImpl();
+        wxMpService.setWxMpConfigStorage(configStorage);
+        wxMpService.initHttp();
+        try {
+            String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send";
+            wxMpService.post(url, "");
+        } catch (WxErrorException e) {
+            System.out.println("初始化 doctor尝试发模板");
+        }
+        try {
+            File file = new File("D:\\mp\\mv1.jpg");
+            WxMpMaterial wxMpMaterial = new WxMpMaterial();
+            wxMpMaterial.setName("mgStart");
+            wxMpMaterial.setFile(file);
+            WxMpMaterialUploadResult wxMediaImgUploadResult = wxMpService.getMaterialService().materialFileUpload(WxConsts.MediaFileType.IMAGE, wxMpMaterial);
+            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+
+            file = new File("D:\\mp\\mv1.jpg");
+            wxMpMaterial = new WxMpMaterial();
+            wxMpMaterial.setName(wxMediaImgUploadResult.getMediaId()+":"+wxMediaImgUploadResult.getUrl());
+            wxMpMaterial.setFile(file);
+            wxMediaImgUploadResult = wxMpService.getMaterialService().materialFileUpload(WxConsts.MediaFileType.IMAGE, wxMpMaterial);
+            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+
+            file = new File("D:\\mp\\mv2.jpg");
+            wxMpMaterial = new WxMpMaterial();
+            wxMpMaterial.setName("mgReport");
+            wxMpMaterial.setFile(file);
+            wxMediaImgUploadResult = wxMpService.getMaterialService().materialFileUpload(WxConsts.MediaFileType.IMAGE, wxMpMaterial);
+            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+
+            file = new File("D:\\mp\\mv2.jpg");
+            wxMpMaterial = new WxMpMaterial();
+            wxMpMaterial.setName(wxMediaImgUploadResult.getMediaId()+":"+wxMediaImgUploadResult.getUrl());
+            wxMpMaterial.setFile(file);
+            wxMediaImgUploadResult = wxMpService.getMaterialService().materialFileUpload(WxConsts.MediaFileType.IMAGE, wxMpMaterial);
+            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+
+
+            WxMpKefuMessage wxMpKefuMessage = WxMpKefuMessage.IMAGE().mediaId("0ExIK6XwQUj2ZXCyqdxElrePjk0JrAetV4PPBAMY4vo").toUser("ovy5B5hdSp4oBZGU3NjngnZt1gvU").build();
+            wxMpService.getKefuService().sendKefuMessage(wxMpKefuMessage);
+            System.out.println(wxMpKefuMessage.toJson());
+            wxMpKefuMessage = WxMpKefuMessage.TEXT().content("这里是内容").toUser("ovy5B5hdSp4oBZGU3NjngnZt1gvU").build();
+            System.out.println(wxMpKefuMessage.toJson());
+            //wxMpKefuMessage = WxMpKefuMessage.NEWS().articles("这里是内容").toUser("ovy5B5hdSp4oBZGU3NjngnZt1gvU").build();
+            //System.out.println(wxMpKefuMessage.toJson());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void mainTest() {
         String backendUrl = "http://api.doctorwork.com/mg-mp-trade";
         WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
-        configStorage.setAppId("wx2b724cc6e6610b47");
-        configStorage.setSecret("f219847d8090f10109e92a99d3eb2a2d");
-        configStorage.setToken("hongyuyey111222333");
-        configStorage.setAesKey("NfbIZ9s7ZXCH7rIXUhOOGi0eUyoyLkQQv8Ytcbu6f98");
+        configStorage.setAppId("wx50a8b592e1d2f7bb");
+        configStorage.setSecret("027bfa26d76ebcb79eb9d0e7c969f461");
+        configStorage.setToken("111222333");
+        configStorage.setAesKey("piMmuJoLRaPl12KnxIwhmXBXQSa4ntJPpiW5Xd5euCR");
 
         WxMpService wxMpService = new me.chanjar.weixin.mp.api.impl.WxMpServiceImpl();
         wxMpService.setWxMpConfigStorage(configStorage);
@@ -189,8 +254,31 @@ public class MenuServiceTest {
         menu.setButtons(allButtons);
 
         try {
-            wxMpService.getMenuService().menuCreate(menu);
-        } catch (WxErrorException e) {
+
+//            File file = new File("D:\\mp\\mgStart.png");
+//            WxMediaUploadResult wxMediaImgUploadResult = wxMpService.getMaterialService().mediaUpload(WxConsts.MediaFileType.IMAGE, file);
+//            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+//
+//            file = new File("D:\\mp\\mgReport.png");
+//            wxMediaImgUploadResult = wxMpService.getMaterialService().mediaUpload(WxConsts.MediaFileType.IMAGE, file);
+//            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+
+//            File file = new File("D:\\mp\\mgStart.png");
+//            WxMpMaterial wxMpMaterial=new WxMpMaterial();
+//            wxMpMaterial.setName("mgStart");
+//            wxMpMaterial.setFile(file);
+//            WxMpMaterialUploadResult wxMediaImgUploadResult = wxMpService.getMaterialService().materialFileUpload(WxConsts.MediaFileType.IMAGE, wxMpMaterial);
+//            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+//
+//            file = new File("D:\\mp\\mgReport.png");
+//            wxMpMaterial=new WxMpMaterial();
+//            wxMpMaterial.setName("mgReport");
+//            wxMpMaterial.setFile(file);
+//            wxMediaImgUploadResult = wxMpService.getMaterialService().materialFileUpload(WxConsts.MediaFileType.IMAGE, wxMpMaterial);
+//            System.out.println(JSON.toJSONString(wxMediaImgUploadResult));
+
+            //wxMpService.getMenuService().menuCreate(menu);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

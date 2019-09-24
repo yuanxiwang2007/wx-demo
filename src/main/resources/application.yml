@@ -21,4 +21,4 @@ redis:
   applicationName: ris-wx
 spring:
   profiles:
-    active: dev
+    active: prod
