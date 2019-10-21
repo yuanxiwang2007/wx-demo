@@ -1,7 +1,9 @@
 package com.estatesoft.ris.wx.controller;
 
+import com.estatesoft.ris.wx.service.HouseService;
 import com.rms.common.controller.BaseController;
 import com.rms.common.result.HttpResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -17,6 +19,17 @@ import java.util.List;
 @RestController
 @RequestMapping("/house")
 public class HouseController extends BaseController {
+
+    @Autowired
+    private HouseService houseService;
+
+    @GetMapping("/bantchUpdate")
+    public String bantchUpdate() {
+
+        List<String> list = new ArrayList<>();
+        houseService.bantchUpdate();
+        return "hello" + new Date().getTime();
+    }
 
     @GetMapping("/hello")
     public String hello() {
